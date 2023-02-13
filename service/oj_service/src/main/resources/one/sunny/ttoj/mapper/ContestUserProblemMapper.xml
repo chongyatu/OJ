@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="one.sunny.ttoj.mapper.ContestUserProblemMapper">
+<!--    List<ContestUserProblem> getRankingsByCondition(@Param("params")ContestRankingsParams contestRankingsParams);-->
+    <select id="getRankingsByCondition" resultType="one.sunny.ttoj.entity.ContestUserProblem">
+        SELECT
+        *
+        FROM
+        t_contest_user_problem
+        WHERE
+        contest_id = #{params.contestId} and user_id IN (
+            SELECT
+            user_id
+            FROM(
+                SELECT
+                user_id
+                FROM
+                t_contest_user_problem
+                WHERE
+                contest_id = #{params.contestId} AND user_id != #{creatorId}
+                GROUP BY
+                user_id
+                ORDER BY
+                count(*) DESC,
+                IFNULL(sum( first_ac_time ),0) + IFNULL(sum( wa_times ),0) * #{penalty} ASC
+                LIMIT ${(params.currentPage-1)*params.pageSize}, #{params.pageSize}
+            ) as ids
+        )
+        ORDER BY
+        user_id
+    </select>
+
+</mapper>

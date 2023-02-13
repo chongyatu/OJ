@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="one.sunny.ttoj.mapper.ContestProblemMapper">
+
+<!--    Problem getProblemByContestIdAndDisplayId(@Param("contestId")Long contestId, @Param("problemDisplayId")String problemDisplayId);-->
+    <select id="getProblemByContestIdAndDisplayId"
+            resultType="one.sunny.ttoj.entity.Problem"
+    >
+        select t_problem.* from t_problem,t_contest_problem
+        <where>
+            t_contest_problem.contest_id = #{contestId}
+            and
+            t_contest_problem.problem_display_id = #{problemDisplayId}
+            and
+            t_problem.id = t_contest_problem.problem_id
+        </where>
+    </select>
+
+</mapper>

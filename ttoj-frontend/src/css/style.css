@@ -1,0 +1,286 @@
+html{
+    font-size: 14px;
+}
+pre{
+    margin: 0;
+}
+/* css 全局变量 */
+:root {
+    --titleColor: #515a6e;
+    --mainTextColor: #303133;
+    --normalTextColor: #606266;
+    --minorTextColor: #909399;
+    --placeholderTextColor: #C0C4CC;
+    --veryEasy: #11eec0;
+    --easy: #2db55d;
+    --medium: #e1b800;
+    --hard: #ef4743;
+    --veryHard: #cc3333;
+    --borderColor: #EBEEF5;
+}
+/**/
+.itemTitle {
+    margin: 1rem 0;
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--titleColor);
+}
+
+.main-text{
+    color: var(--mainTextColor);
+    font-size: 1rem;
+}
+
+.normal-text{
+    color: var(--normalTextColor);
+    font-size: 1rem;
+}
+
+.minor-text{
+    color: var(--minorTextColor);
+    font-size: 0.9rem;
+}
+
+.singleLineEllipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.multiLineEllipsis {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.callout {
+    padding: 1rem;
+    margin: 10px 0 0 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+/*修改 element-ui 原生样式 */
+.el-card__header {
+    padding: 8px 10px !important;
+}
+
+.el-card__body {
+    padding: 10px !important;
+}
+
+.el-tabs__header {
+    margin: 0 !important;
+}
+
+.el-table::before {
+    display: none !important;
+}
+
+.el-table .el-table__cell {
+    padding: 8px 0 !important;
+}
+
+/*
+修改导航栏高度
+*/
+.el-menu-item {
+    height: 45px !important;
+    line-height: 45px !important;
+}
+
+.el-submenu__title {
+    height: 45px !important;
+    line-height: 45px !important;
+}
+
+/* 修改 codemirror 原生样式 */
+.CodeMirror {
+    border: 1px solid #eee;
+    height: 100% !important;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+/* mavonEditor */
+.v-note-wrapper .v-note-panel .v-note-show .v-show-content {
+    padding: 5px 5px 0 5px !important;
+}
+
+.hljs {
+    background: none !important;
+}
+
+.v-note-wrapper {
+    border: none !important;
+}
+
+/* github-markdown.css */
+.markdown-body {
+    font-size: 1rem !important;
+}
+
+/* 修改浏览器滚动条样式 */
+::-webkit-scrollbar {
+    width: 1rem !important;
+    height: 1rem !important;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #e7e8eb;
+    background-clip: padding-box;
+    border-radius: 0;
+    outline: none;
+    border-width: 2px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+}
+
+/*加载动画*/
+@-webkit-keyframes enter {
+    0% {
+        opacity: 0;
+        top: -10px;
+    }
+    5% {
+        opacity: 1;
+        top: 0px;
+    }
+    50.9% {
+        opacity: 1;
+        top: 0px;
+    }
+    55.9% {
+        opacity: 0;
+        top: 10px;
+    }
+}
+
+@keyframes enter {
+    0% {
+        opacity: 0;
+        top: -10px;
+    }
+    5% {
+        opacity: 1;
+        top: 0px;
+    }
+    50.9% {
+        opacity: 1;
+        top: 0px;
+    }
+    55.9% {
+        opacity: 0;
+        top: 10px;
+    }
+}
+
+@-moz-keyframes enter {
+    0% {
+        opacity: 0;
+        top: -10px;
+    }
+    5% {
+        opacity: 1;
+        top: 0px;
+    }
+    50.9% {
+        opacity: 1;
+        top: 0px;
+    }
+    55.9% {
+        opacity: 0;
+        top: 10px;
+    }
+}
+
+#app-loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -27.5px;
+    margin-top: -27.5px;
+}
+
+#app-loader .square {
+    background: #2d8cf0;
+    width: 15px;
+    height: 15px;
+    float: left;
+    top: -10px;
+    margin-right: 5px;
+    margin-top: 5px;
+    position: relative;
+    opacity: 0;
+    -webkit-animation: enter 6s infinite;
+    animation: enter 6s infinite;
+}
+
+#app-loader .enter {
+    top: 0px;
+    opacity: 1;
+}
+
+#app-loader .square:nth-child(1) {
+    -webkit-animation-delay: 1.8s;
+    -moz-animation-delay: 1.8s;
+    animation-delay: 1.8s;
+}
+
+#app-loader .square:nth-child(2) {
+    -webkit-animation-delay: 2.1s;
+    -moz-animation-delay: 2.1s;
+    animation-delay: 2.1s;
+}
+
+#app-loader .square:nth-child(3) {
+    -webkit-animation-delay: 2.4s;
+    -moz-animation-delay: 2.4s;
+    animation-delay: 2.4s;
+    background: #ff9900;
+}
+
+#app-loader .square:nth-child(4) {
+    -webkit-animation-delay: 0.9s;
+    -moz-animation-delay: 0.9s;
+    animation-delay: 0.9s;
+}
+
+#app-loader .square:nth-child(5) {
+    -webkit-animation-delay: 1.2s;
+    -moz-animation-delay: 1.2s;
+    animation-delay: 1.2s;
+}
+
+#app-loader .square:nth-child(6) {
+    -webkit-animation-delay: 1.5s;
+    -moz-animation-delay: 1.5s;
+    animation-delay: 1.5s;
+}
+
+#app-loader .square:nth-child(8) {
+    -webkit-animation-delay: 0.3s;
+    -moz-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+
+#app-loader .square:nth-child(9) {
+    -webkit-animation-delay: 0.6s;
+    -moz-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+
+#app-loader .clear {
+    clear: both;
+}
+
+#app-loader .last {
+    margin-right: 0;
+}

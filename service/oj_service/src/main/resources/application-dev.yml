@@ -1,0 +1,49 @@
+base-host: localhost
+mysql-connection-host: ${base-host}
+mysql-connection-port: 3306
+mysql-db-name: oj
+mysql-username: root
+mysql-password: 123456
+
+redis-connection-host: ${base-host}
+redis-connection-port: 6379
+
+
+#---------------------------------------------------------------
+
+testCaseSaveLocation: W:/my/ttoj/qdoj/judger/test_case/
+
+judge:
+  host: localhost
+  port: 9000
+#---------------------------------------------------------------
+
+server:
+  port: 9991
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${mysql-connection-host}:${mysql-connection-port}/${mysql-db-name}?serverTimezone=GMT%2B8&useUnicode=true&amp&characterEncoding=utf-8
+    username: ${mysql-username}
+    password: ${mysql-password}
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  redis:
+    host: ${redis-connection-host}
+    port: ${redis-connection-port}
+    database: 0
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 100MB
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

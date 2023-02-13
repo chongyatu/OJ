@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="one.sunny.ttoj.mapper.UserMapper">
+
+    <resultMap id="userWithRolesMap" type="one.sunny.ttoj.pojo.bo.UserWithRolesBo">
+        <id column="id" property="id" jdbcType="BIGINT"></id>
+        <result column="username" property="username" jdbcType="VARCHAR"></result>
+        <collection property="roles" ofType="java.lang.String">
+            <result column="role_name" jdbcType="VARCHAR"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectUserWithRolesBoPage" resultMap="userWithRolesMap">
+        SELECT
+        u.id,
+        u.username,
+        r.role_name
+        FROM
+        t_user u
+        LEFT JOIN t_user_role ur ON u.id = ur.user_id
+        LEFT JOIN t_role r ON r.id = ur.role_id
+        WHERE
+        1 = 1
+        <if test="username != null and username != ''">
+            and u.username like concat('%',#{username},'%')
+        </if>
+        limit ${(currentPage-1)*pageSize}, #{pageSize}
+    </select>
+</mapper>
