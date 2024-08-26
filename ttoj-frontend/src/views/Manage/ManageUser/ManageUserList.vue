@@ -137,8 +137,6 @@ export default {
             if (res.success) {
               this.getUserByCondition()
               this.successNotify(res.message)
-            } else {
-              this.errorNotify(res.message)
             }
             this.userDialogVisible = false
           })
@@ -159,8 +157,6 @@ export default {
         if (res.success) {
           this.condition.total = parseInt(res.data.total)
           this.users = res.data.users
-        } else {
-          this.errorNotify(res.message)
         }
         this.showSpin = false
       })

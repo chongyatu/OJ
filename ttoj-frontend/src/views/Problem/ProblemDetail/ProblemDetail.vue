@@ -266,14 +266,6 @@ export default {
   },
   mounted() {
     this.myEditor.setOption('mode', this.theme['cpp'])
-    this.myEditor.on('inputRead', (instance, changeObj) => {
-      if (/\w|\./g.test(changeObj.text[0]) && changeObj.origin !== 'complete') {
-        instance.showHint({
-          completeSingle: false,
-          range: 200, // 附近多少行代码匹配
-        });
-      }
-    })
   },
   methods: {
     changeLanguage(lang) {
@@ -301,8 +293,6 @@ export default {
       }).then(res => {
         if (res.success) {
           this.testRes = res.data.judgeRes
-        } else {
-          this.errorNotify('出错啦,提交失败: ' + res.message)
         }
         this.testLoading = false
       }).catch(err => {
@@ -330,8 +320,6 @@ export default {
           problem.sampleCase = JSON.parse(problem.sampleCase)
           this.problem = problem
           this.submitLanguage = this.languageOption[0]
-        } else {
-          this.errorNotify(res.message)
         }
       })
     },
@@ -365,8 +353,6 @@ export default {
           this.submitLoading = false
           if (res.success) {
             this.judgeRes = res.data.judgeRes
-          } else {
-            this.errorNotify('出错啦,提交失败: ' + res.message)
           }
         }).catch(err => {
           this.submitLoading = false
@@ -383,8 +369,6 @@ export default {
           this.submitLoading = false
           if (res.success) {
             this.judgeRes = res.data.judgeRes
-          } else {
-            this.errorNotify('出错啦,提交失败: ' + res.message)
           }
         }).catch(err => {
           this.submitLoading = false

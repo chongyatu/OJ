@@ -2,8 +2,9 @@ import axios from 'axios'
 import storage from "./storage";
 import Vue from "vue";
 
+// timeout设置大一些,文件上传比较慢
 const request = axios.create({
-    timeout: 10000
+    timeout: 60000
 })
 
 // request 拦截器
@@ -34,12 +35,14 @@ request.interceptors.response.use(
         if (typeof res === 'string') {
             res = res ? JSON.parse(res) : res
         }
+        if (res.success === false){
+            Vue.prototype.errorNotify(res.message)
+        }
         return res;
     },
     error => {
-        Vue.prototype.errorNotify(JSON.stringify(error))
+        Vue.prototype.errorNotify(error.message)
     }
 )
-
 
 export default request

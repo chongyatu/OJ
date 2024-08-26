@@ -27,7 +27,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -81,6 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String username = manageUserParams.getUsername();
         List<UserWithRolesBo> userWithRolesBos = userMapper.selectUserWithRolesBoPage(currentPage, pageSize, username);
         Integer total = Math.toIntExact(userMapper.selectCount(null));
+
         Map<String, Object> usersByConditionMap = new HashMap<>();
         List<ManageUserVo> manageUserVos = copyList(userWithRolesBos);
         usersByConditionMap.put("manageUserVos", manageUserVos);
@@ -90,6 +90,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void updateUserRoles(Long userId, List<String> roles) {
+//        System.out.println(Arrays.toString(roles.toArray()));
         List<Long> roleIds = new ArrayList<>();
         if (roles.size() > 0) {
             List<Role> roleList = roleMapper.selectList(new LambdaQueryWrapper<Role>()

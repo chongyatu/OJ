@@ -186,7 +186,9 @@
       </el-row>
       <el-row>
         <el-col>
-          <el-button type="primary" @click="save" style="margin-bottom: 20px">保存题目</el-button>
+          <el-button type="primary" @click="save" style="margin-bottom: 20px"
+                     :loading="saveLoading"
+          >保存题目</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -235,6 +237,7 @@ export default {
     };
     return {
       problemSpin: false,
+      saveLoading: false,
       problemId: -1,
       problem: {
         displayId: '',
@@ -326,8 +329,6 @@ export default {
         for (let i = 0; i < this.problem.sampleCase.length; i++) {
           this.activeTestCases.push(i.toString())
         }
-      } else {
-        this.errorNotify(res.message)
       }
     })
   },
@@ -362,13 +363,24 @@ export default {
         console.log(formData.get("adminProblemSaveParams"));
         console.log(formData.get("testcase"));
         let config = {headers: {"Content-Type": "multipart/form-data"}}
+        this.saveLoading = true
         if (!!this.problemId && this.problemId !== -1) {
           updateProblem(formData, config).then(res => {
-            this.notify(res.success, res.message)
+            if (res.success){
+              this.successNotify(res.message)
+              this.saveLoading = false
+            }
+          }).catch(e=>{
+            this.saveLoading = false
           })
         } else {
           saveProblem(formData, config).then(res => {
-            this.notify(res.success, res.message)
+            if (res.success){
+              this.successNotify(res.message)
+            }
+            this.saveLoading = false
+          }).catch(e=>{
+            this.saveLoading = false
           })
         }
       })

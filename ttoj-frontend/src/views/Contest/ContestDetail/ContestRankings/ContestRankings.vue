@@ -44,8 +44,8 @@
           </div>
         </template>
         <template slot-scope="scope">
-          <span v-if="!!scope.row.firstAcTime[item.problemDisplayId]">{{ scope.row.firstAcTime[item.problemDisplayId] }}</span>
-          <br v-if="!!scope.row.firstAcTime[item.problemDisplayId] && scope.row.waTimes[item.problemDisplayId] > 0">
+          <span v-if="scope.row.firstAcTime[item.problemDisplayId] != null">{{ scope.row.firstAcTime[item.problemDisplayId] }}</span>
+          <br v-if="scope.row.firstAcTime[item.problemDisplayId] != null && scope.row.waTimes[item.problemDisplayId] > 0">
           <span v-if="scope.row.waTimes[item.problemDisplayId] > 0">(-{{ scope.row.waTimes[item.problemDisplayId] }})</span>
         </template>
       </el-table-column>
@@ -107,10 +107,10 @@ export default {
       let columnIdx = row.columnIndex
       // console.log(row.row, row.column);
       if (columnIdx >= 4) {
-        if (!!row.row.isFirstBlood[row.column.label]) {
+        if (row.row.isFirstBlood[row.column.label]) {
           return 'firstBloodCell'
         }
-        if (!!row.row.firstAcTime[row.column.label]) {
+        if (row.row.firstAcTime[row.column.label] != null) {
           return 'acceptedCell'
         }
         if (row.row.waTimes[row.column.label] > 0) {
@@ -130,9 +130,6 @@ export default {
           this.userRanks = res.data.contestRank.userRanks
           this.contestProblems = res.data.contestRank.contestProblems
           this.condition.total = parseInt(res.data.total)
-          this.spinShow = false
-        }else{
-          this.errorNotify(res.message)
         }
       })
     },

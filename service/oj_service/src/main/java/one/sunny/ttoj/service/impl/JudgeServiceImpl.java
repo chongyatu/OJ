@@ -82,7 +82,7 @@ public class JudgeServiceImpl implements JudgeService {
         verifyParams.put("test_case_id", judgeParams.getTest_case_id());
         headers.add("X-Judge-Server-Token", Constants.JudgeToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(verifyParams, headers);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(verifyParams, headers);
         JudgeResultVo judgeResultVo = restTemplate.postForObject("http://" + judgeHost + ":" + judgePort + "/judge", entity, JudgeResultVo.class);
         // 问题记录:postForObject返回的ResultVo里面的data可能是编译错误string,也可能是list
         Assert.notNull(judgeResultVo, "判题请求错误");
@@ -125,7 +125,7 @@ public class JudgeServiceImpl implements JudgeService {
         } else {
             message = Constants.UnknownErr;
         }
-        return new JudgeRes(output ? (wrongReason <= 0 ? "" : message) : message, null, timeUse, memoryUse / 1024 / 1024, output ? data.get(0).getOutput() : null);
+        return new JudgeRes(output ? (wrongReason <= 0 ? "Test" : message) : message, null, timeUse, memoryUse / 1024 / 1024, output ? data.get(0).getOutput() : null);
     }
 
     @Override
@@ -250,7 +250,7 @@ public class JudgeServiceImpl implements JudgeService {
             contestUserProblem.setFirstBlood(false);
         }
         String compileErr = judgeRes.getCompileErr();
-        if (compileErr != null) {
+        if (compileErr == null) {
             contestProblem.setSubmitNum(contestProblem.getSubmitNum() + 1);
         }
         Integer firstAcTime = contestUserProblem.getFirstAcTime();
@@ -299,7 +299,7 @@ public class JudgeServiceImpl implements JudgeService {
         String testcase = testJudgeParams.getTestcase();
         String language = testJudgeParams.getLanguage();
 
-        String testCaseDir = String.valueOf(userId) + "-" + System.currentTimeMillis();
+        String testCaseDir = userId + "-" + System.currentTimeMillis();
         FileUtil.appendString(testcase, testCaseSaveLocation + testCaseDir + "/1.in", StandardCharsets.UTF_8);
         FileUtil.appendString("", testCaseSaveLocation + testCaseDir + "/1.out", StandardCharsets.UTF_8);
         String info = "{" +
@@ -319,7 +319,7 @@ public class JudgeServiceImpl implements JudgeService {
         FileUtil.appendString(info, testCaseSaveLocation + testCaseDir + "/info", StandardCharsets.UTF_8);
         Problem problem = problemService.getById(problemId);
         Assert.notNull(problem, "题目不存在");
-        JudgeRes judgeRes = null;
+        JudgeRes judgeRes;
         try {
             JudgeParams judgeParams = new JudgeParams(language,
                     code,

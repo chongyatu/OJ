@@ -1,11 +1,12 @@
-base-host: 39.103.197.80
+base-host: localhost
+redis-host: 172.17.213.249
 mysql-connection-host: ${base-host}
 mysql-connection-port: 3306
 mysql-db-name: oj
 mysql-username: root
-mysql-password: 123qwe...
+mysql-password: 123456
 
-redis-connection-host: ${base-host}
+redis-connection-host: ${redis-host}
 redis-connection-port: 6379
 
 #---------------------------------------------------------------
@@ -31,6 +32,7 @@ spring:
   redis:
     host: ${redis-connection-host}
     port: ${redis-connection-port}
+    password: 123321
     database: 0
 
   jackson:
@@ -40,9 +42,15 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 10MB
-      max-request-size: 100MB
+      max-file-size: 100MB #指定上传文件允许的最大大小
+      max-request-size: 100MB #指定multipart/form-data请求允许的最大大小
 
 mybatis-plus:
+  type-aliases-package: one.sunny.ttoj.entity
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted # ????????
   configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

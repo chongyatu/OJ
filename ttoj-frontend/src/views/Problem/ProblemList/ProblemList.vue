@@ -115,8 +115,6 @@ export default {
             }
           }
           this.condition.total = parseInt(res.data.total)
-        } else {
-          this.errorNotify(res.message)
         }
         this.showSpin = false
       })

@@ -28,7 +28,8 @@ public class MyFileUtil {
 
     public static String readFileByStripTrailing(File file) {
         String readString = FileUtil.readString(file, StandardCharsets.UTF_8);
-        return readString.replaceAll("\r\n", "\n").replaceAll("\r", "\n").stripTrailing();
+//        return readString.replaceAll("\r\n", "\n").replaceAll("\r", "\n").stripTrailing();
+        return null;
     }
 
     public static String md5FileByStripTrailing(File file) {

@@ -162,13 +162,17 @@ export default {
           console.log(this.contest.startTime);
           if (this.contestId !== -1) {
             updateContest(this.contest).then(res => {
-              this.notify(res.success, res.message)
+              if (res.success){
+                this.successNotify(res.message)
+              }
             })
           } else {
             this.contest.creatorName = this.username
             this.contest.creatorId = this.userId
             saveContest(this.contest).then(res => {
-              this.notify(res.success, res.message)
+              if (res.success){
+                this.successNotify(res.message)
+              }
             })
           }
         } else {

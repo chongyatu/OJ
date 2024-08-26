@@ -140,9 +140,6 @@ export default {
       let contestId = contest.id
       let visible = contest.visible
       changeContestVisibility(contestId, visible).then(res => {
-        if (!res.success) {
-          this.errorNotify(res.message)
-        }
       })
     },
     getContestsByCondition() {
@@ -152,8 +149,6 @@ export default {
         if (res.success) {
           this.contests = res.data.contests
           this.condition.total = parseInt(res.data.total)
-        } else {
-          this.errorNotify(res.message)
         }
       })
     },
@@ -171,10 +166,7 @@ export default {
     deleteContest(row) {
       deleteContestById(row.id).then(res => {
         if (res.success) {
-          this.successNotify(res.message)
           this.getContestsByCondition()
-        } else {
-          this.errorNotify(res.message)
         }
       })
     },

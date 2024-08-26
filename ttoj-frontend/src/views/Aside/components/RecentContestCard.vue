@@ -35,8 +35,6 @@ export default {
     getRecentContest(this.$config.recentContestDays).then(res=>{
       if(res.success){
         this.contests = res.data.contests
-      }else{
-        this.errorNotify(res.message)
       }
       this.spinShow = false
     })

@@ -46,7 +46,8 @@ export default {
         'MemoryLimitExceeded':{title: '内存超限', explain: '您的程序使用内存过多',color: '#EA0E07'},
         'RuntimeError':{title: '运行错误', explain: '您的程序发生段错误',color: '#EA0E07'},
         'SystemError':{title: '内部错误', explain: '',color: '#EA0E07'},
-        'CompileError':{title: '编译错误', explain: '',color: '#EA0E07'}
+        'CompileError':{title: '编译错误', explain: '',color: '#EA0E07'},
+        'Test':{title: '测试运行', explain: '',color: '#32CA99'}
     },
     /*
     比赛界面固定标签页

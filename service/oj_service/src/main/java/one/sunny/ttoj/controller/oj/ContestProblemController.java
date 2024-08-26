@@ -6,7 +6,6 @@ import one.sunny.ttoj.entity.Problem;
 import one.sunny.ttoj.pojo.vo.oj.ContestProblemVo;
 import one.sunny.ttoj.service.ContestProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;

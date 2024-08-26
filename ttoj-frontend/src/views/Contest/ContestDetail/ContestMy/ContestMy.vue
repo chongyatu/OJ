@@ -131,7 +131,6 @@ export default {
           this.condition.total = parseInt(res.data.total)
           this.mySubmissions = res.data.contestSubmissions
         } else {
-          this.errorNotify(res.message)
           this.$router.push({name: 'contestOverview'})
         }
       })

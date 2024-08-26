@@ -72,7 +72,7 @@
             :page-sizes="[10, 20]"
             :page-size="condition.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
+            :total="contestProblemNum"
             background
         >
         </el-pagination>
@@ -157,7 +157,7 @@
               :page-sizes="[10, 20]"
               :page-size="searchCondition.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="total"
+              :total="searchTotal"
               background
           >
           </el-pagination>
@@ -200,7 +200,8 @@ export default {
         pageSize: 10,
         contestId: this.$route.params.contestId
       },
-      total: 0,
+      searchTotal: 0,
+      contestProblemNum: 0,
       searchCondition: {
         currentPage: 1,
         authorName: '',
@@ -236,8 +237,6 @@ export default {
           if (res.success) {
             this.successNotify(res.message)
             this.getContestProblemsByCondition()
-          } else {
-            this.errorNotify(res.message)
           }
         })
       }else{
@@ -249,8 +248,6 @@ export default {
           if (res.success) {
             this.successNotify(res.message)
             this.getContestProblemsByCondition()
-          } else {
-            this.errorNotify(res.message)
           }
         })
       }
@@ -261,7 +258,9 @@ export default {
       let problemId = problem.id
       let visible = problem.visible
       updateProblemVisibility(problemId, visible).then(res => {
-        this.notify(res.success, res.message)
+        if (res.success){
+          this.successNotify(res.message)
+        }
       })
     },
     searchProblemsByCondition() {
@@ -270,9 +269,7 @@ export default {
         this.searchShowSpin = false
         if (res.success) {
           this.archiveProblems = res.data.problems
-          this.total = parseInt(res.data.total)
-        } else {
-          this.errorNotify(res.message)
+          this.searchTotal = parseInt(res.data.total)
         }
       })
     },
@@ -290,7 +287,6 @@ export default {
       let visible = row.visible
       let contestId = this.$route.params.contestId
       updateContestProblem({contestId, problemId, visible}).then(res => {
-        this.notify(res.success, res.message)
       })
     },
     getContestProblemsByCondition() {
@@ -299,9 +295,7 @@ export default {
         this.showSpin = false
         if (res.success) {
           this.problems = res.data.contestProblems
-          this.total = parseInt(res.data.total)
-        } else {
-          this.errorNotify(res.message)
+          this.contestProblemNum = parseInt(res.data.total)
         }
       })
     },
@@ -333,10 +327,7 @@ export default {
         problemId: row.problemId
       }).then(res => {
         if (res.success) {
-          this.successNotify(res.message)
           this.getContestProblemsByCondition()
-        } else {
-          this.errorNotify(res.message)
         }
       })
     },

@@ -21,6 +21,10 @@ const router = new VueRouter({
 
 // 加载动画
 router.beforeEach((to, from, next) => {
+    // 设置 title
+    if (to.meta.title) {
+        document.title = to.meta.title
+    }
     next()
 });
 

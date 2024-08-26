@@ -234,8 +234,6 @@ export default {
                 }
               }
               this.reload()
-            } else {
-              this.errorNotify(res.message)
             }
           })
         } else {
@@ -251,8 +249,6 @@ export default {
             if (res.success) {
               this.registerDialogVisible = false
               this.successNotify(res.message)
-            } else {
-              this.errorNotify(res.message)
             }
           })
         } else {
@@ -285,8 +281,6 @@ export default {
           this.$router.push('/')
           this.successNotify(res.message)
           this.reload()
-        } else {
-          this.errorNotify(res.message)
         }
       })
     }

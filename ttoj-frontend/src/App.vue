@@ -18,16 +18,11 @@ export default {
     }
   },
   mounted() {
-    let w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    console.log(w);
-    // document.body.setAttribute('min-width', '950px')
   },
   created() {
     this.$store.dispatch(types.Get_LoginUser).then(res => {
       console.log('Get_LoginUser: ', res);
-      if (!res.success) {
-        this.errorNotify(res.message)
-      } else {
+      if (res.success) {
         let loginUser = res.data.loginUser
         if (!!loginUser) {
           this.$store.commit(types.Set_LoginUser, res.data.loginUser)
@@ -57,7 +52,6 @@ export default {
       })
     }
   },
-
 }
 </script>
 

@@ -20,7 +20,7 @@ public class SsoController {
     @Autowired
     private SsoService ssoService;
 
-    @ApiOperation("用户登录")
+    @ApiOperation(" 用户登录")
     @PostMapping("login")
     public R login(@Validated @RequestBody LoginParams loginParams){
         return ssoService.login(loginParams);

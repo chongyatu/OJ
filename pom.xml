@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>common</module>
@@ -21,7 +23,7 @@
     <description>oj</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>8</java.version>
         <mybatis-plus.version>3.5.0</mybatis-plus.version>
         <velocity.version>2.0</velocity.version>
         <swagger.version>2.7.0</swagger.version>
@@ -159,5 +161,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 </project>

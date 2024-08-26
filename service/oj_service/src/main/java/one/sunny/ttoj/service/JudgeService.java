@@ -10,6 +10,7 @@ import one.sunny.ttoj.pojo.vo.oj.JudgeRes;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface JudgeService {
+    @Transactional
     JudgeRes judge(JudgeParams judgeParams);
 
     @Transactional

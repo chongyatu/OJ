@@ -92,8 +92,6 @@ export default {
             problem.acRate = problem.acNum + '/' + problem.submitNum
           }
           this.problems = problems
-        } else {
-          this.errorNotify(res.message)
         }
         this.spinShow = false
       })

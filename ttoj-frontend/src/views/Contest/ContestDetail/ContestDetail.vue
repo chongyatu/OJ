@@ -89,8 +89,6 @@ export default {
             // 比赛未开始,跳回详情页
             this.jumpTo('contestOverview')
           }
-        } else {
-          this.errorNotify(res.message)
         }
       })
     },

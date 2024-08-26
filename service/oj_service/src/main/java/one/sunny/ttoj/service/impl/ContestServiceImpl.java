@@ -123,7 +123,7 @@ public class ContestServiceImpl extends ServiceImpl<ContestMapper, Contest> impl
             Integer waTimes = contestUserProblem.getWaTimes();
             if (firstAcTime != null) {
                 acNum++;
-                totalTime += firstAcTime;
+                totalTime += firstAcTime + waTimes * contest.getPenalty();
             }
             firstAcTimeMap.put(problemDisplayId, firstAcTime);
             firstBloodMap.put(problemDisplayId, firstBlood);
@@ -150,7 +150,7 @@ public class ContestServiceImpl extends ServiceImpl<ContestMapper, Contest> impl
         rankVoList.sort((o1, o2) -> {
             Integer acNum1 = o1.getAcNum();
             Integer acNum2 = o2.getAcNum();
-            return acNum1.equals(acNum2) ? o1.getTotalTime() - o2.getTotalTime() : acNum1 - acNum2;
+            return acNum1.equals(acNum2) ? o1.getTotalTime() - o2.getTotalTime() : acNum2 - acNum1;
         });
         // 封装结果返回
         Map<String, Object> contestRankByConditionMap = new HashMap<>();
@@ -209,7 +209,9 @@ public class ContestServiceImpl extends ServiceImpl<ContestMapper, Contest> impl
                 .like(!StringUtils.isEmpty(name), Contest::getName, name)
                 .like(!StringUtils.isEmpty(creatorName), Contest::getCreatorName, creatorName)
                 .eq(visible != null, Contest::getVisible, visible)
-                .eq(userId != null, Contest::getCreatorId, userId));
+                .eq(userId != null, Contest::getCreatorId, userId)
+                .orderByDesc(Contest::getStartTime)
+        );
 
         Map<String, Object> contestsByConditionMap = new HashMap<>();
         contestsByConditionMap.put("total", page.getTotal());

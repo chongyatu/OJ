@@ -149,9 +149,6 @@ export default {
       let visible = problem.visible
 
       updateProblemVisibility(problemId, visible).then(res => {
-        if (!res.success) {
-          this.errorNotify(res.message)
-        }
       })
     },
     getProblemsByCondition() {
@@ -161,8 +158,6 @@ export default {
         if (res.success) {
           this.problems = res.data.problems
           this.condition.total = parseInt(res.data.total)
-        } else {
-          this.errorNotify(res.message)
         }
       })
     },
@@ -186,8 +181,6 @@ export default {
         if (res.success) {
           this.successNotify(res.message)
           this.getProblemsByCondition()
-        } else {
-          this.errorNotify(res.message)
         }
       })
     },
