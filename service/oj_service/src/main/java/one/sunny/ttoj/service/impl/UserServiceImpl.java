@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import one.sunny.baseservice.exception.AccountNotFoundException;
+import one.sunny.baseservice.exception.PasswordErrorException;
 import one.sunny.baseservice.exception.TTOJException;
+import one.sunny.commonutils.Constants;
 import one.sunny.commonutils.ErrorCode;
 import one.sunny.commonutils.R;
 import one.sunny.commonutils.RedisCache;
@@ -16,6 +19,7 @@ import one.sunny.ttoj.mapper.UserMapper;
 import one.sunny.ttoj.pojo.bo.LoginUserBo;
 import one.sunny.ttoj.pojo.bo.UserWithRolesBo;
 import one.sunny.ttoj.pojo.params.manage.ManageUserParams;
+import one.sunny.ttoj.pojo.params.oj.LoginParams;
 import one.sunny.ttoj.pojo.vo.manage.ManageUserVo;
 import one.sunny.ttoj.service.SsoService;
 import one.sunny.ttoj.service.UserRoleService;
@@ -26,7 +30,10 @@ import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
 
 import java.util.*;
 
@@ -46,6 +53,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private UserRoleService userRoleService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User getUserByUsername(String username) {
@@ -106,6 +116,36 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         // 去除该用户的token,不去除的话身份需要在下一次登录时才能生效
         redisCache.deleteObject("login:" + userId);
+    }
+
+    @Override
+    public User login(LoginParams loginParams) {
+        //1.获取用户名和密码
+        String username = loginParams.getUsername();
+        String password = loginParams.getPassword();
+
+        //2.根据用户名查询数据库中的数据
+        User user = userMapper.getByUserName(username);
+
+        //3.处理各种异常
+        //3.1用户不存在
+        if(user == null){
+            //账号不存在
+            throw new AccountNotFoundException(Constants.AcountNotFound);
+        }
+        //3.2密码对比 TODO：密码的加密解密
+        //对前端传过来的明文密码进行md5加密处理，然后再进行比对
+        //password.getBytes()将密码字符串转换为字节数组
+        //md5DigestAsHex是DigestUtils类提供的一个静态方法，用于计算给定数据的MD5哈希值
+        //并将结果转换为十六进制字符串表示，MD5被认为是不安全的哈希算法
+
+//        String encodePassword = passwordEncoder.encode(password);
+        String encodePassword = DigestUtils.md5DigestAsHex(password.getBytes());
+        if(!encodePassword.equals(user.getPassword())){
+            //密码错误
+            throw new PasswordErrorException(Constants.PasswordError);
+        }
+        return user;
     }
 
     private <T> List<ManageUserVo> copyList(List<T> list) {

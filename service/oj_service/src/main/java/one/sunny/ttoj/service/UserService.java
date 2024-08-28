@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import one.sunny.commonutils.R;
 import one.sunny.ttoj.entity.User;
 import one.sunny.ttoj.pojo.params.manage.ManageUserParams;
+import one.sunny.ttoj.pojo.params.oj.LoginParams;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface UserService extends IService<User> {
 
     @Transactional
     void updateUserRoles(Long userId, List<String> roles);
+
+    User login(LoginParams loginParams);
 }

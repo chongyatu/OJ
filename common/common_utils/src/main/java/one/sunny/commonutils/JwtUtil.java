@@ -65,7 +65,7 @@ public class JwtUtil {
         Date expDate = new Date(expMillis);
         return Jwts.builder()
                 .setId(uuid)              //唯一的ID
-                .setSubject(subject)   // 主题  可以是JSON数据
+                .setSubject(subject)   // 主题 可以是JSON数据
                 .setIssuer("sunny")     // 签发者
                 .setIssuedAt(now)      // 签发时间
                 .signWith(signatureAlgorithm, secretKey) //使用HS256对称加密算法签名, 第二个参数为秘钥
@@ -95,16 +95,5 @@ public class JwtUtil {
                 .setSigningKey(secretKey)
                 .parseClaimsJws(jwt)
                 .getBody();
-    }
-
-    public static void main(String[] args) {
-//        BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
-//        //加密所需的salt
-//        textEncryptor.setPassword("mszlu_blog_$#@wzb_&^%$#");
-//        //要加密的数据（数据库的用户名或密码）
-//        String username = textEncryptor.encrypt("root");
-//        String password = textEncryptor.encrypt("root");
-//        System.out.println("username:"+username);
-//        System.out.println("password:"+password);
     }
 }

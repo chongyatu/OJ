@@ -7,6 +7,9 @@ public class Constants {
     public static final String RealTimeLimitExceeded = "RealTimeLimitExceeded";
     public static final String MemoryLimitExceeded = "MemoryLimitExceeded";
     public static final String RuntimeError = "RuntimeError";
+
+    public static final String PasswordError = "密码错误";
+    public static final String AcountNotFound = "账号不存在";
     public static final String SystemError = "SystemError";
     public static final String CompileError = "CompileError";
     public static final String Java = "Java";

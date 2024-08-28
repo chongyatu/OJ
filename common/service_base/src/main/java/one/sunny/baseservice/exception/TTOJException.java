@@ -14,5 +14,4 @@ public class TTOJException extends RuntimeException {
     private Integer code;
 
     private String msg;
-
 }

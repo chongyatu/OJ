@@ -17,8 +17,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Handler;
 
 @Service
 public class SsoServiceImpl implements SsoService {
@@ -37,8 +41,30 @@ public class SsoServiceImpl implements SsoService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * 用户登陆
+     * @param loginParams
+     * @return
+     */
     @Override
     public R login(LoginParams loginParams) {
+        //1.用户登陆获取用户对象
+        //2.登陆成功后，生成jwt令牌
+        User user = userService.login(loginParams);
+
+        //3.登陆成功后，生成jwt令牌
+        String userId = user.getId().toString();
+        String jwt = JwtUtil.createJWT(userId);
+        System.out.println("jwt:" + jwt);
+        System.out.println("user"+ user);
+        /**
+         * TODO：刷新token消失，无法实现登出功能
+         */
+        LoginUserBo loginUserBo = new LoginUserBo(user,null,null);
+        return R.ok().data("token", jwt).data("loginUser", loginUserBo).message("登录成功");
+    }
+//    @Override
+    public R loginSecurity(LoginParams loginParams) {
         // UsernamePasswordAuthenticationToken -> 封装的 Authentication对象,只有用户名和密码,没有权限
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginParams.getUsername(),loginParams.getPassword());
         // AuthenticationManager authenticate进行用户认证
@@ -78,7 +104,8 @@ public class SsoServiceImpl implements SsoService {
         }
         user = new User();
         user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
+        String encodePassword = DigestUtils.md5DigestAsHex(password.getBytes());
+        user.setPassword(encodePassword);
         userService.save(user);
         return R.ok();
     }
