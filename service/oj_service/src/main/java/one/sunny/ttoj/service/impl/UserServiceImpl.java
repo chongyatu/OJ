@@ -2,18 +2,14 @@ package one.sunny.ttoj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import one.sunny.baseservice.exception.AccountNotFoundException;
-import one.sunny.baseservice.exception.PasswordErrorException;
-import one.sunny.baseservice.exception.TTOJException;
-import one.sunny.commonutils.Constants;
-import one.sunny.commonutils.ErrorCode;
-import one.sunny.commonutils.R;
-import one.sunny.commonutils.RedisCache;
+import one.sunny.commonutils.*;
 import one.sunny.ttoj.entity.Role;
 import one.sunny.ttoj.entity.User;
 import one.sunny.ttoj.entity.UserRole;
+import one.sunny.ttoj.exception.AccountNotFoundException;
+import one.sunny.ttoj.exception.PasswordErrorException;
+import one.sunny.ttoj.exception.TTOJException;
 import one.sunny.ttoj.mapper.RoleMapper;
 import one.sunny.ttoj.mapper.UserMapper;
 import one.sunny.ttoj.pojo.bo.LoginUserBo;
@@ -27,9 +23,6 @@ import one.sunny.ttoj.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.ManagedList;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -67,17 +60,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public R getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            LoginUserBo loginUserBo = (LoginUserBo) authentication.getPrincipal();
-            if (loginUserBo == null) {
-                return R.error().message("获取用户信息失败");
-            }
-            return R.ok().data("loginUser", loginUserBo);
-        } else {
-            return R.error().message("暂未登录");
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+//            LoginUserBo loginUserBo = (LoginUserBo) authentication.getPrincipal();
+//            if (loginUserBo == null) {
+//                return R.error().message("获取用户信息失败");
+//            }
+//            return R.ok().data("loginUser", loginUserBo);
+//        } else {
+//            return R.error().message("暂未登录");
+//        }
+        String userId = BaseContext.getCurrentId().toString();
+        if(userId == null)return R.error().message("暂未登陆");
+        String redisKey = "login:" + userId;
+        LoginUserBo loginUserBo = redisCache.getCacheObject(redisKey);
+        if(loginUserBo == null) {
+            return R.error().message("获取用户信息失败");
+        }else{
+            return R.ok().data("loginUser",loginUserBo);
         }
-
     }
 
     @Override

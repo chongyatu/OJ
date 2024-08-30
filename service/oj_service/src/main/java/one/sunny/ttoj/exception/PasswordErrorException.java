@@ -1,4 +1,4 @@
-package one.sunny.baseservice.exception;
+package one.sunny.ttoj.exception;
 
 /**
  * 密码错误异常

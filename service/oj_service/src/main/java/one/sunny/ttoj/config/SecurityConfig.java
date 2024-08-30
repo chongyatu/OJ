@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/manage/contest/**", "/manage/contestProblem/**").hasAnyAuthority("manage:own:contest", "manage:all:contest")
             .antMatchers("/judge").authenticated()
             .anyRequest().permitAll();
+        //"/swagger-ui.html", "/webjars/**", "/v2/**", "/swagger-resources/**"
         //添加过滤器
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 

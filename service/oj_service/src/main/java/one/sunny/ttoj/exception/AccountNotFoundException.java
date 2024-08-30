@@ -1,4 +1,4 @@
-package one.sunny.baseservice.exception;
+package one.sunny.ttoj.exception;
 
 /**
  * 账号不存在异常

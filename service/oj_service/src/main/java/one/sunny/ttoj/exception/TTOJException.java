@@ -1,4 +1,4 @@
-package one.sunny.baseservice.exception;
+package one.sunny.ttoj.exception;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

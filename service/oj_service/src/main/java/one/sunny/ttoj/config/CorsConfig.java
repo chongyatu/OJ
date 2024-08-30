@@ -1,4 +1,4 @@
-package one.sunny.baseservice.config;
+package one.sunny.ttoj.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

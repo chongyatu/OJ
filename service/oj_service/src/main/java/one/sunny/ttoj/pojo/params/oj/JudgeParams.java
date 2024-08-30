@@ -3,8 +3,8 @@ package one.sunny.ttoj.pojo.params.oj;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import one.sunny.baseservice.exception.TTOJException;
 import one.sunny.commonutils.ErrorCode;
+import one.sunny.ttoj.exception.TTOJException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

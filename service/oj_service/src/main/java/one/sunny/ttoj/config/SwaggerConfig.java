@@ -1,4 +1,4 @@
-package one.sunny.baseservice.config;
+package one.sunny.ttoj.config;
 
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;

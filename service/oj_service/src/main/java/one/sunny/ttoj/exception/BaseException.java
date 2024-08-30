@@ -1,4 +1,4 @@
-package one.sunny.baseservice.exception;
+package one.sunny.ttoj.exception;
 
 /**
  * 业务异常

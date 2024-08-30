@@ -1,4 +1,4 @@
-package one.sunny.baseservice.config;
+package one.sunny.ttoj.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,12 +16,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-public class WebMvcConfig implements WebMvcConfigurer {
-    /**
-     * 设置静态资源映射，否则接口文档页面无法访问
-     * 访问路径http://localhost:9991/swagger-ui.html
-     * @param registry
-     */
+public class WebMvcConfig  implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")

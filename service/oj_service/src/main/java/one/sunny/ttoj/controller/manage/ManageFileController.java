@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @Slf4j
 @Api("manage_file_service")
-@Controller
+@RestController
 @RequestMapping("manage/file")
 @CrossOrigin
 public class ManageFileController {
