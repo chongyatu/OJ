@@ -44,6 +44,9 @@ import static one.sunny.commonutils.Constants.RootID;
 public class JudgeServiceImpl implements JudgeService {
     @Autowired
     private ProblemService problemService;
+    //RestTemplate 是 Spring 框架中的一个同步 HTTP 客户端，
+    //用于简化与 RESTful Web 服务的交互。它提供了一系列方法来发送 HTTP 请求和处理 HTTP 响应，
+    //这些方法都以高层次的 API 封装了底层的网络通信细节。
     @Autowired
     private RestTemplate restTemplate;
     @Value("${judge.host}")
@@ -80,13 +83,25 @@ public class JudgeServiceImpl implements JudgeService {
         verifyParams.put("output", output);
         verifyParams.put("src", judgeParams.getSrc());
         verifyParams.put("test_case_id", judgeParams.getTest_case_id());
+
+        //设置HTTP请求的请求头和请求体
+        //添加了一个名为 X-Judge-Server-Token 的自定义请求头，并将 Constants.JudgeToken 作为它的值。
         headers.add("X-Judge-Server-Token", Constants.JudgeToken);
+        //这行代码设置了请求的 Content-Type 头部为 application/json，这表示请求体的数据格式是 JSON。
         headers.setContentType(MediaType.APPLICATION_JSON);
+        //HttpEntity 是一个封装了请求体和请求头的对象。在这里，
+        //verifyParams 是一个包含请求体数据的 Map<String, Object> 对象，而 headers 是前面设置的请求头。
+        //HttpEntity 用于将请求体和请求头一起传递给 RestTemplate，以便发送 HTTP 请求。
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(verifyParams, headers);
+        //这行代码使用 restTemplate 发送一个 POST 请求到指定的 URL（由 judgeHost 和 judgePort 组合而成），
+        // 请求的主体是 entity，并期望接收一个 JudgeResultVo 类型的响应。
+        //http://localhost:9000/judge
         JudgeResultVo judgeResultVo = restTemplate.postForObject("http://" + judgeHost + ":" + judgePort + "/judge", entity, JudgeResultVo.class);
-        // 问题记录:postForObject返回的ResultVo里面的data可能是编译错误string,也可能是list
+
+        //问题记录:postForObject返回的ResultVo里面的data可能是编译错误string,也可能是list
         Assert.notNull(judgeResultVo, "判题请求错误");
         if (judgeResultVo.getErr() != null) {
+            //出错
             JudgeRes judgeRes = new JudgeRes();
             judgeRes.setResult(judgeResultVo.getErr());
             judgeRes.setCompileErr((String) judgeResultVo.getData());
@@ -94,8 +109,12 @@ public class JudgeServiceImpl implements JudgeService {
             judgeRes.setMemoryUse(0);
             return judgeRes;
         }
+
+        //这段代码的作用是将 judgeResultVo 对象中的数据转换为 JSON 字符串，
+        //然后将这个 JSON 字符串解析为 TestCaseResultsDto 类型的对象列表。
         String json = JSONObject.toJSONString(judgeResultVo.getData());
         List<TestCaseResultsDto> data = JSON.parseArray(json, TestCaseResultsDto.class);
+
         Integer wrongReason = 0;
         int timeUse = 0;
         int memoryUse = 0;
@@ -107,6 +126,7 @@ public class JudgeServiceImpl implements JudgeService {
                 break;
             }
         }
+
         String message;
         if (wrongReason == 0) {
             message = Constants.Accepted;
@@ -130,6 +150,7 @@ public class JudgeServiceImpl implements JudgeService {
 
     @Override
     public JudgeRes problemArchiveJudge(ArchiveJudgeParams archiveJudgeParams) {
+        //获取当前时间为提交时间
         Date submitTime = new Date();
         Long userId = archiveJudgeParams.getUserId();
         String username = archiveJudgeParams.getUsername();
@@ -138,21 +159,28 @@ public class JudgeServiceImpl implements JudgeService {
         String code = archiveJudgeParams.getCode();
         String language = archiveJudgeParams.getLanguage();
 
+        //判断题目是否存在
         Problem problem = problemService.getById(problemId);
         Assert.notNull(problem, "题目不存在");
 
+        //定义判定参数
         JudgeParams judgeParams = new JudgeParams(language,
                 code,
                 problem.getTimeLimit(),
                 problem.getMemoryLimit(),
                 problem.getTestCaseDir(),
                 false);
+
+        //判题
         JudgeRes judgeRes = judge(judgeParams);
+
         String result = judgeRes.getResult();
         Submission submission = new Submission(null, userId, username, problemId, problemName, submitTime, code, result, language, judgeRes.getTimeUse(), judgeRes.getMemoryUse());
+
         // 增加题目提交数
         LambdaUpdateWrapper<Problem> problemUpdateWrapper = new LambdaUpdateWrapper<>();
         problemUpdateWrapper.eq(Problem::getId, problemId).set(Problem::getSubmitNum, problem.getSubmitNum() + 1);
+
         if (Constants.Accepted.equals(result)) {
             // 保存AC记录
             if (userAcProblemService.count(new LambdaQueryWrapper<UserAcProblem>()
@@ -186,12 +214,14 @@ public class JudgeServiceImpl implements JudgeService {
         String problemDisplayId = contestSubmitParams.getProblemDisplayId();
         String code = contestSubmitParams.getCode();
         String language = contestSubmitParams.getLanguage();
+
         // 获取比赛
         Contest contest = contestService.getOne(new LambdaQueryWrapper<Contest>().
                 eq(Contest::getId, contestId)
         );
         Assert.notNull(contest, "无效的提交, 比赛不存在");
         Long creatorId = contest.getCreatorId();
+
         // 比赛开始前只有root和比赛创建者能提交
         DateTime submitTime = new DateTime();
         DateTime startTime = new DateTime(contest.getStartTime());

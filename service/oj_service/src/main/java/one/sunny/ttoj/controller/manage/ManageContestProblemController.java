@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Done
+ */
 @Api("admin_contest_problem_service")
 @RestController
 @RequestMapping("manage/contestProblem")
@@ -35,6 +38,7 @@ public class ManageContestProblemController {
     @PostMapping("getContestProblemsByCondition")
     public R getContestProblemsByCondition(@RequestBody ManageContestProblemQueryParams manageContestProblemQueryParams){
         Map<String, Object> map = contestProblemService.getManageContestProblemsByCondition(manageContestProblemQueryParams);
+
         List<ManageContestProblemVo> contestProblemVos = (List<ManageContestProblemVo>) map.get("manageContestProblemVos");
         long total = (long) map.get("total");
         return R.ok().data("contestProblems", contestProblemVos).data("total", total);

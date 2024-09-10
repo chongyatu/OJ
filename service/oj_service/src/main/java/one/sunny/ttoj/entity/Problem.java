@@ -1,9 +1,9 @@
 package one.sunny.ttoj.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,8 +18,8 @@ import java.util.Date;
 public class Problem implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.ASSIGN_ID)//自定义ID生成器
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     private String displayId;
     private Boolean visible;
@@ -37,5 +37,6 @@ public class Problem implements Serializable {
     private String authorName;
     private String testCaseDir;
     private String sampleCase;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long authorId;
 }

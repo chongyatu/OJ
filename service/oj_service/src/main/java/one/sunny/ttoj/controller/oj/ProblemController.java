@@ -8,16 +8,14 @@ import one.sunny.ttoj.pojo.params.oj.ProblemQueryParams;
 import one.sunny.ttoj.pojo.vo.oj.ProblemVo;
 import one.sunny.ttoj.service.ProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Done
+ */
 @Slf4j
 @Api("problem_service")
 @RestController
@@ -29,8 +27,7 @@ public class ProblemController {
 
     @ApiOperation(value = "带条件分页查询题目列表")
     @PostMapping("getProblemsByCondition")
-    public R getProblemsByCondition(@RequestBody ProblemQueryParams problemQueryParams, Authentication authentication) {
-        System.out.println(authentication);
+    public R getProblemsByCondition(@RequestBody ProblemQueryParams problemQueryParams) {
         Map<String, Object> problemsByConditionMap = problemService.getProblemsByCondition(problemQueryParams, false);
         List<ProblemVo> problemVos = (List<ProblemVo>) problemsByConditionMap.get("problems");
         Long total = (Long) problemsByConditionMap.get("total");

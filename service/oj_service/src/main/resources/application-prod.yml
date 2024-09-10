@@ -11,7 +11,7 @@ redis-connection-port: 6379
 
 #---------------------------------------------------------------
 
-testCaseSaveLocation: /my/ttoj/judger/test_case/
+testCaseSaveLocation: W:\my\OnlineJudgeDeploy\data\backend\test_case\
 
 judge:
   host: ${base-host}
@@ -20,6 +20,8 @@ judge:
 
 server:
   port: 9991
+# 自定义额外的端口
+#additional-ports: 9999
 
 spring:
   datasource:

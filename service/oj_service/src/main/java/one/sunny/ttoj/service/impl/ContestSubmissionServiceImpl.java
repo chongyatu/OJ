@@ -47,7 +47,6 @@ public class ContestSubmissionServiceImpl extends ServiceImpl<ContestSubmissionM
 
     @Override
     public Map<String, Object> getContestSubmission(ContestSubmissionParams contestSubmissionParams) {
-        // TODO 涉及权限问题 userId应该和token匹配
         Long contestId = contestSubmissionParams.getContestId();
         Integer currentPage = contestSubmissionParams.getCurrentPage();
         Integer pageSize = contestSubmissionParams.getPageSize();
@@ -59,9 +58,11 @@ public class ContestSubmissionServiceImpl extends ServiceImpl<ContestSubmissionM
                 .eq(ContestSubmission::getUserId, userId)
                 .orderByDesc(ContestSubmission::getSubmitTime)
         );
+
         List<ContestSubmission> contestSubmissions = page.getRecords();
         List<ContestSubmissionVo> contestSubmissionVos = copyList(contestSubmissions);
         long total = page.getTotal();
+
         Map<String, Object> contestSubmissionsByConditionMap = new HashMap<>();
         contestSubmissionsByConditionMap.put("contestSubmissions", contestSubmissionVos);
         contestSubmissionsByConditionMap.put("total", total);

@@ -1,7 +1,9 @@
 package one.sunny.ttoj.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
@@ -19,11 +21,14 @@ public class ContestSubmission implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id")
+    @TableId(value = "id",type = IdType.ASSIGN_ID)
     private Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long contestId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long userId;
     private String username;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long problemId;
     private String problemName;
     private String problemDisplayId;

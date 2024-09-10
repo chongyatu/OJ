@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import one.sunny.ttoj.entity.*;
 import one.sunny.ttoj.mapper.*;
+import one.sunny.ttoj.pojo.bo.BaseContext;
 import one.sunny.ttoj.pojo.bo.LoginUserBo;
 import one.sunny.ttoj.pojo.params.manage.ManageContestProblemAddParams;
 import one.sunny.ttoj.pojo.params.manage.ManageContestProblemDeleteParams;
@@ -15,16 +16,11 @@ import one.sunny.ttoj.pojo.vo.manage.ManageContestProblemVo;
 import one.sunny.ttoj.pojo.vo.manage.ManageSearchProblemVo;
 import one.sunny.ttoj.pojo.vo.oj.ContestProblemVo;
 import one.sunny.ttoj.service.ContestProblemService;
-import one.sunny.ttoj.service.ContestUserProblemService;
 import one.sunny.ttoj.service.ProblemService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,28 +49,33 @@ public class ContestProblemServiceImpl extends ServiceImpl<ContestProblemMapper,
 
     @Override
     public List<ContestProblemVo> getContestProblemVosByContestIdOrderByDisplayId(Long contestId, Boolean visible) {
+        //根据比赛id查询可见的题目，且按照题目展示的id从小到大排序。
         List<ContestProblem> contestProblems = contestProblemMapper.selectList(new LambdaQueryWrapper<ContestProblem>()
                 .eq(ContestProblem::getContestId, contestId)
                 .orderByAsc(ContestProblem::getProblemDisplayId)
                 .eq(visible != null, ContestProblem::getVisible, visible)
         );
+        //转换成ContestProblemVo
         List<ContestProblemVo> contestProblemVos = new ArrayList<>();
         contestProblems.forEach((item) -> {
             ContestProblemVo contestProblemVo = new ContestProblemVo();
             BeanUtils.copyProperties(item, contestProblemVo);
             contestProblemVos.add(contestProblemVo);
         });
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        LoginUserBo loginUserBo = BaseContext.getCurrentLoginUserBo();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //如果没有用户信息, 不查询题目通过情况
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            LoginUserBo loginUserBo = (LoginUserBo) authentication.getPrincipal();
+//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+        if(loginUserBo != null){
+//            LoginUserBo loginUserBo = (LoginUserBo) authentication.getPrincipal();
             Long userId = loginUserBo.getUser().getId();
             for (ContestProblemVo contestProblemVo : contestProblemVos) {
                 Long problemId = contestProblemVo.getProblemId();
                 ContestUserProblem contestUserProblem = contestUserProblemMapper.selectOne(new LambdaQueryWrapper<ContestUserProblem>()
                         .eq(ContestUserProblem::getUserId, userId)
                         .eq(ContestUserProblem::getProblemId, problemId)
-                        .select(ContestUserProblem::getFirstAcTime)
+                        .select(ContestUserProblem::getFirstAcTime)//select 方法用于指定查询时返回的字段,避免检索不必要的数据，同时减少数据传输的开销。
                 );
                 if (contestUserProblem != null && contestUserProblem.getFirstAcTime() != null) {
                     contestProblemVo.setAlreadyPassed(true);
@@ -104,6 +105,7 @@ public class ContestProblemServiceImpl extends ServiceImpl<ContestProblemMapper,
                 .eq(ContestProblem::getContestId, contestId)
                 .orderByAsc(ContestProblem::getProblemDisplayId)
         );
+
         List<ContestProblem> contestProblems = contestProblemPage.getRecords();
         List<ManageContestProblemVo> manageContestProblemVos = copyContestProblemListToManageContestProblemVoList(contestProblems);
 
@@ -118,6 +120,7 @@ public class ContestProblemServiceImpl extends ServiceImpl<ContestProblemMapper,
     public boolean deleteContestProblemByProblemId(ManageContestProblemDeleteParams manageContestProblemDeleteParams) {
         Long contestId = manageContestProblemDeleteParams.getContestId();
         Long problemId = manageContestProblemDeleteParams.getProblemId();
+
         contestProblemMapper.delete(new LambdaQueryWrapper<ContestProblem>()
                 .eq(ContestProblem::getContestId, contestId)
                 .eq(ContestProblem::getProblemId, problemId)
@@ -154,6 +157,7 @@ public class ContestProblemServiceImpl extends ServiceImpl<ContestProblemMapper,
         );
         List<Problem> records = page.getRecords();
         long total = page.getTotal();
+
         List<ManageSearchProblemVo> manageSearchProblemVos = new ArrayList<>();
         records.forEach((item) -> {
             ManageSearchProblemVo manageSearchProblemVo = new ManageSearchProblemVo();
@@ -200,12 +204,15 @@ public class ContestProblemServiceImpl extends ServiceImpl<ContestProblemMapper,
         Long problemId = manageContestProblemUpdateParams.getProblemId();
         String problemDisplayId = manageContestProblemUpdateParams.getProblemDisplayId();
         Boolean visible = manageContestProblemUpdateParams.getVisible();
+
         // check
         contestProblemCheck(contestId, problemId);
+
         // 比赛题目是否存在
         Long count = contestProblemMapper.selectCount(new LambdaQueryWrapper<ContestProblem>()
                 .eq(ContestProblem::getContestId, contestId)
                 .eq(ContestProblem::getProblemId, problemId));
+
         Assert.state(count > 0, "比赛题目不存在");
         if(problemDisplayId != null){
             count = contestProblemMapper.selectCount(new LambdaQueryWrapper<ContestProblem>()
@@ -215,6 +222,7 @@ public class ContestProblemServiceImpl extends ServiceImpl<ContestProblemMapper,
             );
             Assert.state(count == 0, "显示ID与其它比赛重复,请重新填写");
         }
+
         // check
         // 修改 contest problem
         if(problemDisplayId != null || visible != null){
@@ -225,6 +233,7 @@ public class ContestProblemServiceImpl extends ServiceImpl<ContestProblemMapper,
                     .set(visible != null, ContestProblem::getVisible, visible)
             );
         }
+
         // 修改比赛提交中的 problemDisplayId
         if(problemDisplayId != null){
             contestSubmissionMapper.update(null, new LambdaUpdateWrapper<ContestSubmission>()
@@ -249,6 +258,7 @@ public class ContestProblemServiceImpl extends ServiceImpl<ContestProblemMapper,
         Long contestId = manageContestProblemAddParams.getContestId();
         String problemDisplayId = manageContestProblemAddParams.getProblemDisplayId();
         Long problemId = manageContestProblemAddParams.getProblemId();
+
         // check
         contestProblemCheck(contestId, problemId);
         Long count = contestProblemMapper.selectCount(new LambdaQueryWrapper<ContestProblem>()

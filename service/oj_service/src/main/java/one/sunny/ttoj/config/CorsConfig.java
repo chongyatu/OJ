@@ -20,5 +20,6 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 // 跨域允许时间
                 .maxAge(3600);
+        System.out.println("corsConfiug Success");
     }
 }

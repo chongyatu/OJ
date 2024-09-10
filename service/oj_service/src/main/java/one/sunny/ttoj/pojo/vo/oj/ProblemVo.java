@@ -1,9 +1,11 @@
 package one.sunny.ttoj.pojo.vo.oj;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
 public class ProblemVo {
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     private String displayId;
     private String name;

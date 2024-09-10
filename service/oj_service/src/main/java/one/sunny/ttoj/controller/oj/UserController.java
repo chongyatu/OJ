@@ -8,7 +8,9 @@ import one.sunny.ttoj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
+/**
+ * Done
+ */
 @Slf4j
 @Api("user")
 @RestController

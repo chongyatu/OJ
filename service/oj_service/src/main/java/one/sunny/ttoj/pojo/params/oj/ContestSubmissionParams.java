@@ -1,5 +1,6 @@
 package one.sunny.ttoj.pojo.params.oj;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -15,7 +16,9 @@ public class ContestSubmissionParams implements Serializable {
     @Min(1)
     private Integer pageSize;
     @NotNull(message = "ContestSubmissionParams-contestId不能为空")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long contestId;
     @NotNull(message = "ContestSubmissionParams-userId不能为空")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long userId;
 }

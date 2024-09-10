@@ -12,6 +12,9 @@ import one.sunny.ttoj.service.JudgeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Done
+ */
 @Slf4j(topic = "TTOJ-JudgeService")
 @Api("judge_service")
 @RestController

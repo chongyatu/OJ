@@ -32,4 +32,6 @@ public interface ContestService extends IService<Contest> {
     Boolean deleteContestByContestId(Long contestId);
 
     ContestVo getContestVoById(Long id);
+
+    void saveContest2Redis(Long id,Long expireSeconds);
 }

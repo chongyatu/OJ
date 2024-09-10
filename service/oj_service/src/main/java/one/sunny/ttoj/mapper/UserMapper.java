@@ -14,7 +14,4 @@ import java.util.List;
 @Component
 public interface UserMapper extends BaseMapper<User> {
     List<UserWithRolesBo> selectUserWithRolesBoPage(@Param("currentPage")Integer currentPage, @Param("pageSize")Integer pageSize, @Param("username")String username);
-
-    @Select("select * from t_user where username = #{username}")
-    User getByUserName(String username);
 }

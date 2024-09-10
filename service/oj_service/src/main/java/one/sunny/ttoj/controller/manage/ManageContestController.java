@@ -17,6 +17,9 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Done
+ */
 @Api("admin_contest_service")
 @RestController
 @RequestMapping("manage/contest")

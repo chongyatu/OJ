@@ -8,6 +8,15 @@ public class Constants {
     public static final String MemoryLimitExceeded = "MemoryLimitExceeded";
     public static final String RuntimeError = "RuntimeError";
 
+    public static final String CACHE_PROBLEM_ID = "cache:problem:";
+
+    public static final Long CACHE_PROBLEM_TIME = 30*60L;
+    public static final Long CACHE_USER_TIME = 30*24*60*60L;
+
+    public static final String CACHE_CONTEST_ID = "cache:contest:";
+    public static final String LOCK_CONTEST_KEY = "lock:contest:";
+
+    public static final Long CACHE_CONTEST_TIME = 20*60L;
     public static final String PasswordError = "密码错误";
     public static final String AcountNotFound = "账号不存在";
     public static final String SystemError = "SystemError";

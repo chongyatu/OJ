@@ -39,6 +39,7 @@ public class ContestController {
         return R.ok().data("contest", contestVo);
     }
 
+    //TODO: 通过id获取比赛排名
     @ApiOperation("通过id获取比赛排名")
     @PostMapping("rankings")
     public R getRankingsByCondition(@RequestBody ContestRankingsParams contestRankingsParams){

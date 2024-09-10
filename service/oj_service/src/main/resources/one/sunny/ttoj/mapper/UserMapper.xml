@@ -10,6 +10,7 @@
         </collection>
     </resultMap>
 
+    <!--链接查询-->
     <select id="selectUserWithRolesBoPage" resultMap="userWithRolesMap">
         SELECT
         u.id,
@@ -19,11 +20,11 @@
         t_user u
         LEFT JOIN t_user_role ur ON u.id = ur.user_id
         LEFT JOIN t_role r ON r.id = ur.role_id
-        WHERE
-        1 = 1
-        <if test="username != null and username != ''">
-            and u.username like concat('%',#{username},'%')
-        </if>
+        <where>
+            <if test="username != null and username != ''">
+                and u.username like concat('%',#{username},'%')
+            </if>
+        </where>
         limit ${(currentPage-1)*pageSize}, #{pageSize}
     </select>
 </mapper>

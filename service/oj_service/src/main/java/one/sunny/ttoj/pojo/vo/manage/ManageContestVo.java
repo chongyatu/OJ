@@ -1,11 +1,13 @@
 package one.sunny.ttoj.pojo.vo.manage;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 public class ManageContestVo {
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     private String name;
     private String description;
@@ -13,6 +15,7 @@ public class ManageContestVo {
     private Date endTime;
     private Boolean visible;
     private String creatorName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long creatorId;
     private Integer penalty;
     /*

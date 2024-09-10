@@ -1,5 +1,6 @@
 package one.sunny.ttoj.pojo.params.manage;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class ManageContestCreateParams implements Serializable {
     @NotBlank(message = "ContestCreateParams-creatorName参数不能为空")
     private String creatorName;
     @NotNull(message = "ContestCreateParams-creatorId参数不能为空")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long creatorId;
     @NotNull(message = "ContestCreateParams-penalty参数不能为空")
     @Min(0)

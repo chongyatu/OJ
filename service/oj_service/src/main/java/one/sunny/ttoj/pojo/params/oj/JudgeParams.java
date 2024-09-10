@@ -34,6 +34,7 @@ public class JudgeParams {
         this.setOutput(output);
         this.setLanguage_config(new LanguageConfig(language));
     }
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

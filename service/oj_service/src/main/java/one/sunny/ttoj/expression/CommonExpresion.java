@@ -1,9 +1,8 @@
 package one.sunny.ttoj.expression;
 
+import one.sunny.ttoj.pojo.bo.BaseContext;
 import one.sunny.ttoj.pojo.bo.LoginUserBo;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 
 import java.util.List;
 
@@ -39,13 +38,14 @@ public class CommonExpresion {
      * @return
      */
     public static LoginUserBo getLoginUserBo(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken){
-            return null;
-        }
-        Object principal = authentication.getPrincipal();
-        LoginUserBo loginUserBo = (LoginUserBo) principal;
-        System.out.println(loginUserBo);
+        LoginUserBo loginUserBo = BaseContext.getCurrentLoginUserBo();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication instanceof AnonymousAuthenticationToken){
+//            return null;
+//        }
+//        Object principal = authentication.getPrincipal();
+//        LoginUserBo loginUserBo = (LoginUserBo) principal;
+//        System.out.println(loginUserBo);
         return loginUserBo;
     }
 }

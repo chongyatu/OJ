@@ -1,6 +1,7 @@
 package one.sunny.ttoj.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,6 +15,7 @@ public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     private String authDescription;
@@ -21,6 +23,6 @@ public class Menu implements Serializable {
     private String authKey;
 
     private String name;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long parent_id;
 }

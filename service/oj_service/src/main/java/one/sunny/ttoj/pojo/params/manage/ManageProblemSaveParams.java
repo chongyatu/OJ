@@ -1,5 +1,6 @@
 package one.sunny.ttoj.pojo.params.manage;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -7,6 +8,7 @@ import java.util.Date;
 
 @Data
 public class ManageProblemSaveParams {
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     @NotNull(message = "ManageProblemSaveParams-displayId为空")
     private String displayId;
@@ -36,5 +38,6 @@ public class ManageProblemSaveParams {
     private String testCaseDir;
     @NotNull(message = "ManageProblemSaveParams-sampleCase为空")
     private String sampleCase;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long authorId;
 }

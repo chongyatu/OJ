@@ -1,5 +1,6 @@
 package one.sunny.ttoj.pojo.vo.oj;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class SubmitResultVo implements Serializable {
     private static final long serialVersionUID = 1L;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long judgeId;
     private String username;
     private String problemDisplayId;

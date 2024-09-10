@@ -35,6 +35,7 @@ public class ManageFileController {
         //文件大小
         response.addHeader("content-length", "" + downloadFile.length());
         response.addHeader("content-type", "application/zip");
+
         ServletOutputStream outputStream = response.getOutputStream();
         int len;
         byte[] data = new byte[1024];

@@ -7,10 +7,12 @@ import one.sunny.commonutils.R;
 import one.sunny.ttoj.pojo.params.oj.LoginParams;
 import one.sunny.ttoj.service.SsoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Done
+ */
 @Slf4j
 @Api("sso")
 @RestController
@@ -35,9 +37,5 @@ public class SsoController {
     @PostMapping("logout")
     public R logout(){
         return ssoService.logout();
-    }
-    @PostMapping("test")
-    public R test(){
-        return R.ok().message("ok");
     }
 }

@@ -1,5 +1,6 @@
 package one.sunny.ttoj.pojo.vo.manage;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ManageSearchProblemVo {
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     private String displayId;
     private String name;

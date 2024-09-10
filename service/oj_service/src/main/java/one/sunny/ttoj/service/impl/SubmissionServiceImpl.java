@@ -28,12 +28,14 @@ public class SubmissionServiceImpl extends ServiceImpl<SubmissionMapper, Submiss
         Integer pageSize = submissionParams.getPageSize();
         Long userId = submissionParams.getUserId();
         Long problemId = submissionParams.getProblemId();
+
         Page<Submission> page = new Page<>(currentPage, pageSize);
         submissionMapper.selectPage(page, new LambdaQueryWrapper<Submission>()
                 .eq(userId != null, Submission::getUserId ,userId)
                 .eq(problemId != null, Submission::getProblemId, problemId)
                 .orderByDesc(Submission::getSubmitTime)
         );
+
         List<Submission> submissions = page.getRecords();
         List<SubmissionVo> submissionVos = new ArrayList<>();
         submissions.forEach(item -> {

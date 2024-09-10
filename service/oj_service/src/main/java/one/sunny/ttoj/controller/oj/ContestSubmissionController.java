@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Done
+ */
 @RestController
 @RequestMapping("/contest-submission")
 @CrossOrigin
@@ -22,6 +25,7 @@ public class ContestSubmissionController {
     @PostMapping
     public R getContestSubmission(@RequestBody ContestSubmissionParams contestSubmissionParams){
         Map<String, Object> contestSubmissionMap = contestSubmissionService.getContestSubmission(contestSubmissionParams);
+
         List<ContestSubmissionVo> contestSubmissionVos = (List<ContestSubmissionVo>) contestSubmissionMap.get("contestSubmissions");
         Long total = (Long) contestSubmissionMap.get("total");
         return R.ok().data("contestSubmissions", contestSubmissionVos).data("total", total);
